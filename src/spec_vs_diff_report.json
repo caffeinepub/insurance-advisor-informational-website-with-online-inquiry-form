@@ -1,0 +1,81 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-11T07:49:31.848Z",
+  "summary": "Core marketing site, inquiry form, and an admin dashboard scaffold were added, along with a Motoko backend that stores inquiries and provides an admin-only listing API. However, the backend data model and APIs are missing required fields/behaviors (createdAt, returning id, reverse-chronological listing), and the required generated icon sprite asset usage cannot be verified from the diff summary.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Persist inquiries with a server-generated id and createdAt timestamp, and provide on successful submission an on-page confirmation and form reset.",
+      "reason": "Frontend shows success + reset, and backend generates an id, but the backend does not store any createdAt timestamp, and submitInquiry does not return the server-generated id or createdAt.",
+      "evidence": [
+        "backend/main.mo (SubmittedInquiry only has id, name, state; no createdAt; submitInquiry returns async ())",
+        "frontend/src/components/Inquiry/InquiryForm.tsx (resets form and shows success UI)"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Backend list inquiries in reverse chronological order.",
+      "reason": "Backend returns Map values as an array without ordering; reverse-chronological order is instead approximated in the frontend by sorting by id, but the backend method itself does not implement reverse chronological ordering (and no createdAt exists to sort by).",
+      "evidence": [
+        "backend/main.mo (getAllInquiries returns inquiries.values().toArray() with no sort and no createdAt)",
+        "frontend/src/hooks/useInquiries.ts (client-side sort by id descending)"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Add all required generated static image assets under frontend/public/assets/generated (hero banner, insurance icons sprite, advisor logo) and use them in the UI.",
+      "reason": "The UI references the hero image and logo, but the diff summary does not show the actual image files (they are likely among the omitted non-LLM-readable added files). Also, there is no evidence the required insurance icons sprite is referenced/used anywhere in the UI.",
+      "evidence": [
+        "frontend/src/pages/MarketingPage.tsx (references /assets/generated/hero-insurance.dim_1600x600.png)",
+        "frontend/src/components/layout/SiteLayout.tsx (references /assets/generated/advisor-logo.dim_512x512.png)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "User profile management APIs (getCallerUserProfile, getUserProfile, saveCallerUserProfile).",
+      "reason": "The BuildRequest does not request any user profile functionality; only inquiry submission and admin inquiry viewing are required.",
+      "evidence": [
+        "backend/main.mo (User Profile Management section)"
+      ]
+    },
+    {
+      "description": "Secret-token based access-control initialization via a URL parameter (caffeineAdminToken) and calling _initializeAccessControlWithSecret on the actor.",
+      "reason": "The BuildRequest specifies Internet Identity for authentication/authorization and does not mention admin bootstrapping via URL tokens or secret initialization flows.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts (getSecretParameter('caffeineAdminToken'); actor._initializeAccessControlWithSecret(adminToken))",
+        "frontend/src/utils/urlParams.ts (URL/session parameter utilities)",
+        "backend/main.mo (uses authorization mixins/access-control not mentioned in request)"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/Inquiry/InquiryForm.tsx",
+    "frontend/src/components/Marketing/InsuranceSection.tsx",
+    "frontend/src/components/Marketing/PartnersSection.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/layout/SiteLayout.tsx",
+    "frontend/src/content/insuranceContent.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useAdminStatus.ts",
+    "frontend/src/hooks/useInquiries.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useSubmitInquiry.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/validation.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AdminDashboardPage.tsx",
+    "frontend/src/pages/MarketingPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

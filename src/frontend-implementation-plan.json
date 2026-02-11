@@ -1,0 +1,187 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Insurance advisor site with inquiry form + admin inquiry dashboard (frontend)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Build a multi-section marketing site describing each insurance offering and listing partner insurers (including HDFC Life).",
+      "acceptanceCriteria": [
+        "The site includes a clear section (or page) for each of the listed insurance types.",
+        "Each insurance type section includes concise English copy describing what it covers, who it is for, and what information a prospect should prepare before inquiring.",
+        "The site includes a section listing partner/available insurers, explicitly including “HDFC Life”, and supports displaying multiple companies."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/content/insuranceContent.ts",
+          "operation": "create",
+          "description": "Add structured English marketing copy for: term insurance (including HDFC Life), health, vehicle, property, stock, group mediclaim, and other products; include per-section “what it covers / who it’s for / what to prepare” and a partner-insurers list containing “HDFC Life” plus multiple additional companies."
+        },
+        {
+          "path": "frontend/src/components/Marketing/InsuranceSection.tsx",
+          "operation": "create",
+          "description": "Create a reusable section component to render an insurance category card/section from the structured content (title, summary, bullet lists). Compose styling using existing shadcn-ui components (e.g., Card/Badge/Typography utilities) without modifying frontend/src/components/ui. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/Marketing/PartnersSection.tsx",
+          "operation": "create",
+          "description": "Create a section that renders partner/available insurers from the content list (explicitly including “HDFC Life”) and supports displaying multiple companies. Compose with existing shadcn-ui components; do not modify frontend/src/components/ui. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/MarketingPage.tsx",
+          "operation": "create",
+          "description": "Create the main marketing page that lays out the hero plus one visible section for each insurance type, and a partner insurers section; include a prominent CTA linking/scrolling to the inquiry form section."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the root app shell that wires navigation to the MarketingPage and provides in-page anchors/links to each insurance type section and the inquiry form section (avoid creating orphan pages)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add a validated online inquiry form that submits to the backend and shows on-page success confirmation with form reset.",
+      "acceptanceCriteria": [
+        "Submitting the form shows validation errors for missing required fields and for invalid phone/email formats (when provided).",
+        "On successful submission, the user sees an on-page success confirmation and the form resets.",
+        "The inquiry is persisted in the Motoko canister with a server-generated id and createdAt timestamp."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/validation.ts",
+          "operation": "create",
+          "description": "Implement reusable client-side validators for required fields, phone format, and optional email format (when provided), returning field-level error messages."
+        },
+        {
+          "path": "frontend/src/components/Inquiry/InquiryForm.tsx",
+          "operation": "create",
+          "description": "Build the inquiry form UI with fields: full name, phone number, email (optional), insurance type (select), preferred company (optional), and message/requirements. Use shadcn-ui form primitives (Input/Select/Textarea/Button, etc.) by composing (do not modify frontend/src/components/ui). Show inline validation errors and disable/indicate submitting state. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useSubmitInquiry.ts",
+          "operation": "create",
+          "description": "Create a hook that uses useActor() to call backendInterface.submitInquiry(name, state) and returns submit status for the InquiryForm; handle and surface backend errors in a user-friendly way."
+        },
+        {
+          "path": "frontend/src/pages/MarketingPage.tsx",
+          "operation": "modify",
+          "description": "Wire the InquiryForm into the marketing page as a dedicated “Online Inquiry” section with clear instructions and an on-page success confirmation that resets the form after successful submission."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Ensure navigation/CTA(s) on the marketing page can take users to the inquiry form section (e.g., anchor/hash navigation) so the inquiry flow is reachable."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Add an admin-only dashboard page that uses Internet Identity login and shows a read-only, filterable list of inquiries with detail view.",
+      "acceptanceCriteria": [
+        "Admin dashboard requires Internet Identity login; unauthenticated users are prompted to sign in.",
+        "After login, the dashboard displays a table/list of inquiries with created date/time, name, phone, insurance type, and preferred company (if provided).",
+        "Selecting an inquiry shows full details including the message/requirements field.",
+        "A simple filter for insurance type is available and updates the visible list."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Add a login/logout button using the useInternetIdentity() hook and clear cached data on logout (per the authorization component guidance). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useAdminStatus.ts",
+          "operation": "create",
+          "description": "Create a hook that uses useActor() + backendInterface.isCallerAdmin() (and/or getCallerUserRole) to determine whether the current user is an authenticated admin; expose loading/unauthorized states; handle authorization failures gracefully. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useInquiries.ts",
+          "operation": "create",
+          "description": "Create a hook that loads inquiries for admin viewing via backendInterface.getAllInquiries() (only when admin), and provides derived client-side filtering by insurance type plus selection state."
+        },
+        {
+          "path": "frontend/src/pages/AdminDashboardPage.tsx",
+          "operation": "create",
+          "description": "Implement the admin dashboard UI: if unauthenticated, prompt to sign in via LoginButton; if authenticated but unauthorized, show an access-denied message. When authorized, render a read-only inquiries table/list (created date/time, name, phone, insurance type, preferred company if present), an insurance-type filter control, and a detail panel/view showing full inquiry details including message/requirements. Compose UI with shadcn-ui components; do not modify frontend/src/components/ui. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire an admin-only route/view (e.g., via hash path like #/admin) to AdminDashboardPage and add a discreet “Admin” link in the header/footer; ensure unauthorized users see the sign-in prompt/access-denied UI instead of data."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Define and apply a cohesive modern theme (not blue+purple) and consistent design across marketing, inquiry form, and admin dashboard.",
+      "acceptanceCriteria": [
+        "The site uses a consistent design system (buttons, inputs, headings, cards, spacing) across the marketing sections, inquiry form, and admin dashboard.",
+        "The chosen palette avoids default-looking styling and is not blue+purple unless explicitly required (not required here).",
+        "All user-facing text is in English and reads professionally."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Create the global Tailwind + design-token CSS variables used by the shadcn-ui theme (e.g., background/foreground/primary/etc.), choosing a professional palette (e.g., charcoal + emerald/teal accent) and consistent typography/spacing defaults; ensure the palette is not blue+purple."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust Tailwind theme extensions (if needed) to support the chosen brand palette, typography, and consistent spacing/shadow tokens while keeping the existing CSS-variable-driven shadcn-ui setup."
+        },
+        {
+          "path": "frontend/src/components/layout/SiteLayout.tsx",
+          "operation": "create",
+          "description": "Create a shared layout (header/nav, container widths, section spacing, footer) that is reused by MarketingPage and AdminDashboardPage for consistent styling; compose using shadcn-ui primitives without modifying frontend/src/components/ui. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/MarketingPage.tsx",
+          "operation": "modify",
+          "description": "Apply the shared SiteLayout and ensure all marketing text is professional English with consistent heading hierarchy, spacing, and card styles."
+        },
+        {
+          "path": "frontend/src/pages/AdminDashboardPage.tsx",
+          "operation": "modify",
+          "description": "Apply the shared SiteLayout and consistent table/filter/detail styling to match the marketing and inquiry form design system."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add required generated images under frontend/public/assets/generated and reference them in the UI (hero and category visuals).",
+      "acceptanceCriteria": [
+        "All required generated images exist under frontend/public/assets/generated and are referenced directly by the frontend (not served via the backend).",
+        "Images are used in at least the landing/hero section and/or as section illustrations/icons to improve visual clarity."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/hero-insurance.dim_1600x600.png",
+          "operation": "create",
+          "description": "Add the generated hero banner image asset at the exact required path and filename."
+        },
+        {
+          "path": "frontend/public/assets/generated/insurance-icons-sprite.dim_1024x1024.png",
+          "operation": "create",
+          "description": "Add the generated insurance category icon sprite image asset at the exact required path and filename."
+        },
+        {
+          "path": "frontend/public/assets/generated/advisor-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated advisor logo mark image asset at the exact required path and filename."
+        },
+        {
+          "path": "frontend/src/pages/MarketingPage.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/hero-insurance.dim_1600x600.png in the hero section and frontend/public/assets/generated/advisor-logo.dim_512x512.png in the header/brand area (via SiteLayout or page composition)."
+        },
+        {
+          "path": "frontend/src/components/Marketing/InsuranceSection.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/insurance-icons-sprite.dim_1024x1024.png to display a consistent icon/illustration per insurance category (e.g., using sprite positioning or simplified mapping) to improve section clarity."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Create a clean informational website for an insurance advisor showcasing multiple insurance products/companies and enabling visitors to submit online inquiries.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Professional hero banner illustration depicting insurance protection themes (family/home/vehicle/health icons in a clean modern style) (hero-insurance.dim_1600x600.png)\n- Set of minimal line icons for insurance categories (term, health, vehicle, property, stock, group) in a consistent style (insurance-icons-sprite.dim_1024x1024.png)\n- Simple clean logo mark for an insurance advisor brand (abstract shield/umbrella motif), transparent background (advisor-logo.dim_512x512.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-a-multi-section-informational-website-for-an-insurance-advisor-that-clearly-presents-the-advisor-s-offerings-across-term-insurance-including-hdfc-life-health-insurance-vehicle-insurance-property-insurance-stock-insurance-group-mediclaim-insurance-and-other-insurance-products",
+      "title": "Create a multi-section informational website for an insurance advisor that clearly presents the advisor’s offerings across: term insurance (including HDFC Life), health insurance, vehicle insurance, property insurance, stock insurance, group mediclaim insurance, and other insurance products.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-online-inquiry-flow-that-lets-visitors-submit-an-insurance-inquiry-from-the-website-including-a-form-with-at-minimum-full-name-phone-number-email-optional-insurance-type-select-preferred-company-optional-and-a-free-text-message-requirements-field",
+      "title": "Add an online inquiry flow that lets visitors submit an insurance inquiry from the website, including a form with at minimum: full name, phone number, email (optional), insurance type (select), preferred company (optional), and a free-text message/requirements field.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-admin-only-dashboard-page-in-the-frontend-that-allows-the-advisor-to-sign-in-with-internet-identity-and-view-submitted-inquiries-read-only-including-basic-filtering-by-insurance-type-and-a-detail-view-per-inquiry",
+      "title": "Add an admin-only dashboard page in the frontend that allows the advisor to sign in with Internet Identity and view submitted inquiries (read-only), including basic filtering by insurance type and a detail view per inquiry.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-define-and-apply-a-cohesive-modern-visual-theme-for-the-site-colors-typography-spacing-components-appropriate-for-a-professional-insurance-advisor-brand-and-enforce-it-consistently-across-all-pages-sections",
+      "title": "Define and apply a cohesive, modern visual theme for the site (colors, typography, spacing, components) appropriate for a professional insurance advisor brand, and enforce it consistently across all pages/sections.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-generated-static-image-assets-for-the-site-stored-under-frontend-public-assets-generated-and-use-them-in-the-ui",
+      "title": "Add generated static image assets for the site (stored under frontend/public/assets/generated) and use them in the UI.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create informational website describing all offered insurance services (term, health, vehicle, property, stock, group mediclaim, etc.)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Add online inquiry/contact form for visitors to submit insurance inquiries",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Include pages/sections to showcase insurance types and associated partner companies (e.g., HDFC Life and other insurers)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Implement backend inquiry storage and APIs in the single Motoko actor to support creating inquiries and listing inquiries for authenticated admin viewing.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Insurance advisor informational website with online inquiry form",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

@@ -1,0 +1,134 @@
+{
+  "kind": "build_request",
+  "title": "Insurance advisor informational website with online inquiry form",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a multi-section informational website for an insurance advisor that clearly presents the advisor’s offerings across: term insurance (including HDFC Life), health insurance, vehicle insurance, property insurance, stock insurance, group mediclaim insurance, and other insurance products.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "I am a Insurance advisor who sells all type of insurance including Term insurance (HDFC Life), health insurance, vehicle insurance, property insurance, stock insurance, group mediclaim insurance and others with multiple insurance companies."
+        ]
+      },
+      "acceptanceCriteria": [
+        "The site includes a clear section (or page) for each of the listed insurance types.",
+        "Each insurance type section includes concise English copy describing what it covers, who it is for, and what information a prospect should prepare before inquiring.",
+        "The site includes a section listing partner/available insurers, explicitly including “HDFC Life”, and supports displaying multiple companies."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add an online inquiry flow that lets visitors submit an insurance inquiry from the website, including a form with at minimum: full name, phone number, email (optional), insurance type (select), preferred company (optional), and a free-text message/requirements field.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "I would like to create an website providing all the information about the insurance and would like to get the inquiry online for the same."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Submitting the form shows validation errors for missing required fields and for invalid phone/email formats (when provided).",
+        "On successful submission, the user sees an on-page success confirmation and the form resets.",
+        "The inquiry is persisted in the Motoko canister with a server-generated id and createdAt timestamp."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement backend inquiry storage and APIs in the single Motoko actor to support creating inquiries and listing inquiries for authenticated admin viewing.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "would like to get the inquiry online"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes a method to create an inquiry (stores name, phone, email?, insuranceType, preferredCompany?, message, createdAt, and a unique id).",
+        "Backend exposes a method to list inquiries in reverse chronological order.",
+        "Backend restricts listing inquiries to authenticated users (Internet Identity principal) and denies anonymous access."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add an admin-only dashboard page in the frontend that allows the advisor to sign in with Internet Identity and view submitted inquiries (read-only), including basic filtering by insurance type and a detail view per inquiry.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "get the inquiry online"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin dashboard requires Internet Identity login; unauthenticated users are prompted to sign in.",
+        "After login, the dashboard displays a table/list of inquiries with created date/time, name, phone, insurance type, and preferred company (if provided).",
+        "Selecting an inquiry shows full details including the message/requirements field.",
+        "A simple filter for insurance type is available and updates the visible list."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Define and apply a cohesive, modern visual theme for the site (colors, typography, spacing, components) appropriate for a professional insurance advisor brand, and enforce it consistently across all pages/sections.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create an website providing all the information about the insurance"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The site uses a consistent design system (buttons, inputs, headings, cards, spacing) across the marketing sections, inquiry form, and admin dashboard.",
+        "The chosen palette avoids default-looking styling and is not blue+purple unless explicitly required (not required here).",
+        "All user-facing text is in English and reads professionally."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add generated static image assets for the site (stored under frontend/public/assets/generated) and use them in the UI.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create an website providing all the information about the insurance"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All required generated images exist under frontend/public/assets/generated and are referenced directly by the frontend (not served via the backend).",
+        "Images are used in at least the landing/hero section and/or as section illustrations/icons to improve visual clarity."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor (no additional backend services).",
+    "Do not modify files under frontend/src/components/ui (compose them instead).",
+    "Do not modify immutable hook/bootstrap paths listed by the platform (frontend/src/hooks/useInternetIdentity.ts or .tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx)."
+  ],
+  "nonGoals": [
+    "Selling insurance policies directly on the website (checkout/payments)",
+    "Integrations with external email/SMS providers for notifications",
+    "Live chat or real-time messaging",
+    "Third-party authentication providers other than Internet Identity"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Professional hero banner illustration depicting insurance protection themes (family/home/vehicle/health icons in a clean modern style) (hero-insurance.dim_1600x600.png)",
+      "Set of minimal line icons for insurance categories (term, health, vehicle, property, stock, group) in a consistent style (insurance-icons-sprite.dim_1024x1024.png)",
+      "Simple clean logo mark for an insurance advisor brand (abstract shield/umbrella motif), transparent background (advisor-logo.dim_512x512.png)"
+    ],
+    "edits": []
+  }
+}

@@ -1,2 +1,3 @@
-# insurance-advisor-informational-website-with-online-inquiry-form
-Exported from Caffeine project: Insurance advisor informational website with online inquiry form
+## Insurance advisor informational website with online inquiry form
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

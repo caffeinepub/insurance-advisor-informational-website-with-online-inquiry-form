@@ -1,0 +1,17 @@
+{
+  "frontend/src/index.css": "Global styles with OKLCH color system using sophisticated emerald/teal accent palette with charcoal base, supporting both light and dark modes with proper contrast ratios.",
+  "frontend/tailwind.config.js": "Tailwind configuration extending the theme with custom colors, fonts (Inter), border radius, shadows, and animations for a cohesive design system.",
+  "frontend/src/App.tsx": "Root application component implementing simple hash-based routing between marketing page and admin dashboard.",
+  "frontend/src/content/insuranceContent.ts": "Structured content data for all insurance types (term, health, vehicle, property, stock, group mediclaim) with coverage details, ideal customers, preparation info, and partner companies list including HDFC Life.",
+  "frontend/src/components/layout/SiteLayout.tsx": "Shared layout component with sticky header featuring logo, navigation, and footer with proper attribution and UTM tracking.",
+  "frontend/src/components/Marketing/InsuranceSection.tsx": "Reusable insurance category section component displaying icon, description, coverage details, ideal customers, and preparation requirements in a visually appealing card layout.",
+  "frontend/src/components/Marketing/PartnersSection.tsx": "Partner insurance companies section displaying all partner logos/names in a responsive grid layout.",
+  "frontend/src/components/Inquiry/InquiryForm.tsx": "Validated inquiry form with fields for name, phone, email, insurance type, preferred company, and message, showing inline validation errors and success confirmation.",
+  "frontend/src/components/auth/LoginButton.tsx": "Internet Identity login/logout button with loading states and query cache clearing on logout.",
+  "frontend/src/lib/validation.ts": "Client-side validation functions for form fields including name, phone (Indian format), email, insurance type, and message with specific error messages.",
+  "frontend/src/hooks/useSubmitInquiry.ts": "Custom hook for submitting inquiries to the backend with loading and error state management.",
+  "frontend/src/hooks/useAdminStatus.ts": "Custom hook to check if the current authenticated user has admin permissions, handling authorization errors gracefully.",
+  "frontend/src/hooks/useInquiries.ts": "Custom hook for fetching and managing inquiries list with client-side filtering by insurance type and selection state for detail view.",
+  "frontend/src/pages/MarketingPage.tsx": "Main marketing page with hero section, insurance services showcase, partners section, and inquiry form with smooth scroll navigation.",
+  "frontend/src/pages/AdminDashboardPage.tsx": "Admin dashboard page with authentication check, inquiries table with filtering, and detailed inquiry view panel showing all submission information."
+}
